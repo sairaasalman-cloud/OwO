@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Frien-lentine?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffafcc 0%, #ffcad4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(214, 112, 147, 0.3);
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+            border: 8px solid #ff8fab;
+            overflow: hidden;
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff8fab;
+            font-size: 20px;
+            opacity: 0.3;
+        }
+        
+        h1 {
+            color: #fb6f92;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #ffc2d1;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            color: #9d4edd;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .gif-container {
+            margin: 30px auto;
+            width: 300px;
+            height: 250px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            border: 5px solid #ffc2d1;
+        }
+        
+        .gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .yes-btn {
+            background: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(157, 78, 221, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(157, 78, 221, 0.6);
+        }
+        
+        .no-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(255, 107, 107, 0.3);
+            transition: all 0.1s ease;
+            position: absolute;
+            z-index: 5;
+        }
+        
+        .no-btn:hover {
+            cursor: not-allowed;
+        }
+        
+        .no-btn-container {
+            position: relative;
+            height: 80px;
+            width: 180px;
+        }
+        
+        .success-message {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #c8e7ff 0%, #e0fbfc 100%);
+            border-radius: 20px;
+            border: 5px solid #9d4edd;
+        }
+        
+        .success-message h2 {
+            color: #9d4edd;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            color: #5a189a;
+            font-size: 1.3rem;
+            line-height: 1.5;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            opacity: 0;
+            z-index: 9999;
+        }
+        
+        .attempt-counter {
+            margin-top: 15px;
+            color: #fb6f92;
+            font-size: 1.1rem;
+            min-height: 25px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #ff8fab;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1.2rem; }
+            .gif-container { width: 250px; height: 200px; }
+            .yes-btn, .no-btn { font-size: 1.5rem; padding: 15px 35px; }
+            .buttons-container { gap: 20px; }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding: 25px 15px; }
+            .buttons-container { flex-direction: column; align-items: center; }
+            .no-btn-container { margin-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts" id="hearts"></div>
+        
+        <h1>Will You Be My Frien-lentine?</h1>
+        <p class="subtitle"> A platonic but kinda romantic valentine request 💖</p>
+        
+        <div class="gif-container">
+            <img id="mainGif" src="https://media.tenor.com/YWRLnlD8TxIAAAAM/cat-please.gif" alt="Beggy puppy eyes">
+        </div>
+        
+        <div class="buttons-container">
+            <button class="yes-btn" id="yesBtn">YES! 💝</button>
+            <div class="no-btn-container">
+                <button class="no-btn" id="noBtn">No</button>
+            </div>
+        </div>
+        
+        <div class="attempt-counter" id="attemptCounter"></div>
+        
+        <div class="success-message" id="successMessage">
+            <h2>YAY! You're the best! 🎉</h2>
+            <p>You're Stuck With Me Until You Get Sick Of Me Meow 💖💌</p>
+            <p style="margin-top: 15px; font-weight: bold;">You masochist, you 😏</p>
+        </div>
+        
+        <div class="footer">
+            Made with extra friendship &lt;3
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainGif = document.getElementById('mainGif');
+        const successMessage = document.getElementById('successMessage');
+        const heartsContainer = document.getElementById('hearts');
+        const attemptCounter = document.getElementById('attemptCounter');
+        
+        // Variables
+        let escapeAttempts = 0;
+        const maxWidth = window.innerWidth;
+        const maxHeight = window.innerHeight;
+        const messages = [
+            "Are you sure?",
+            "Really sure?",
+            "Think again!",
+            "Last chance!",
+            "Don't do this to me!",
+            "I know where you live ._.",
+            "QUIT IT",
+            "Okay fine, 'No' isn't an option anymore e_e"
+        ];
+        
+        // Create floating hearts
+        function createHearts() {
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+                heart.style.animation = `float ${Math.random() * 10 + 10}s linear infinite`;
+                heartsContainer.appendChild(heart);
+                
+                // Add animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes float {
+                        0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+                        50% { transform: translateY(-20px) rotate(180deg); opacity: 0.6; }
+                        100% { transform: translateY(0) rotate(360deg); opacity: 0.3; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Make the "No" button escape
+        function makeButtonEscape() {
+            const container = document.querySelector('.no-btn-container');
+            const containerRect = container.getBoundingClientRect();
+            
+            // Calculate random position within container
+            const newX = Math.random() * (containerRect.width - noBtn.offsetWidth);
+            const newY = Math.random() * (containerRect.height - noBtn.offsetHeight);
+            
+            // Apply new position with animation
+            noBtn.style.transition = 'all 0.3s ease';
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+            
+            // Change button text progressively
+            if (escapeAttempts < messages.length) {
+                noBtn.textContent = messages[escapeAttempts];
+            }
+            
+            // Make button smaller after several attempts
+            if (escapeAttempts >= 3) {
+                const scale = 1 - (escapeAttempts * 0.1);
+                noBtn.style.transform = `scale(${Math.max(scale, 0.5)})`;
+            }
+            
+            // Make button disappear after many attempts
+            if (escapeAttempts >= 7) {
+                noBtn.style.opacity = '0.3';
+                noBtn.style.pointerEvents = 'none';
+            }
+            
+            // Update attempt counter
+            escapeAttempts++;
+            attemptCounter.textContent = `Nice try! Attempts to click "No": ${escapeAttempts}`;
+        }
+        
+        // Create confetti explosion
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ff8e8e', '#9d4edd', '#c77dff', '#ffafcc', '#ffc2d1'];
+            const container = document.querySelector('.container');
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = `${Math.random() * -50}%`;
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = `${Math.random() * 10 + 5}px`;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                container.appendChild(confetti);
+                
+                // Animate confetti
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 2000 + 1000,
+                    delay: Math.random() * 500
+                });
+                
+                // Remove after animation
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+        
+        // Handle YES button click
+        yesBtn.addEventListener('click', function() {
+            // Change GIF to celebration
+            mainGif.src = "https://gifdb.com/images/high/cheerful-kawaii-cat-dancing-nk89r6fbo9kh36lf.webp";
+            
+            // Show success message
+            successMessage.style.display = 'block';
+            
+            // Create confetti
+            createConfetti();
+            
+            // Change button text
+            yesBtn.textContent = "YAY! 🎉";
+            yesBtn.style.animation = 'none';
+            yesBtn.style.transform = 'scale(1.2)';
+            
+            // Remove the no button
+            noBtn.style.display = 'none';
+            attemptCounter.textContent = "You made the right choice! 🥳";
+            
+            // Play celebration sound (optional - uncomment if you want sound)
+            // const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-happy-crowd-laugh-464.mp3');
+            // audio.volume = 0.3;
+            // audio.play();
+        });
+        
+        // Handle NO button hover (escape)
+        noBtn.addEventListener('mouseover', makeButtonEscape);
+        noBtn.addEventListener('touchstart', function(e) {
+            makeButtonEscape();
+            e.preventDefault();
+        });
+        
+        // Handle NO button click attempt (escape faster)
+        noBtn.addEventListener('click', function(e) {
+            makeButtonEscape();
+            e.preventDefault();
+            
+            // If somehow clicked after many attempts, show a funny message
+            if (escapeAttempts > 10) {
+                alert("I mean, why'd you bother?");
+                document.querySelector('.yes-btn').click();
+            }
+        });
+        
+        // Initialize the page
+        window.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            
+            // Set initial position for no button
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = '50%';
+            noBtn.style.top = '50%';
+            noBtn.style.transform = 'translate(-50%, -50%)';
+        });
+        
+        // Make the button escape if user tries to tab to it
+        noBtn.addEventListener('focus', makeButtonEscape);
+        
+        // Make button escape periodically as well
+        setInterval(() => {
+            if (escapeAttempts > 0 && escapeAttempts < 10) {
+                makeButtonEscape();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
